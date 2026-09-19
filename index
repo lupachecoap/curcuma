@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curcu-Amador | Cúrcuma Orgánica de Alta Pureza & Salud Natural</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        },
+                        curcuma: {
+                            light: '#FFFBEB',
+                            primary: '#E5A93C',
+                            dark: '#D97706',
+                            terracotta: '#9A3412',
+                            green: '#15803D',
+                            greenDark: '#166534'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FAFAFA;
+            color: #1F2937;
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+        }
+
+        .bg-curcuma-gradient {
+            background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 40%, #FDE68A 100%);
+        }
+
+        .bg-card-gradient {
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFFBEB 100%);
+        }
+
+        .gold-glow {
+            box-shadow: 0 10px 30px -5px rgba(229, 169, 60, 0.3);
+        }
+
+        .gold-glow-hover:hover {
+            box-shadow: 0 15px 35px -5px rgba(217, 119, 6, 0.4);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b45309;
+        }
+
+        /* Toast animation */
+        @keyframes slideIn {
+            from { transform: translateY(100%) opacity(0); }
+            to { transform: translateY(0) opacity(1); }
+        }
+        .toast-animate {
+            animation: slideIn 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased selection:bg-amber-200 selection:text-amber-900">
+
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-amber-100 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-white font-bold shadow-md group-hover:scale-105 transition-transform">
+                    <i data-lucide="sparkles" class="w-6 h-6"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xl font-extrabold tracking-tight text-amber-950 font-heading">
+                        Curcu<span class="text-amber-600">-Amador</span>
+                    </span>
+                    <span class="text-[10px] tracking-widest text-emerald-700 font-semibold uppercase -mt-1">
+                        Cúrcuma Orgánica
+                    </span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-stone-700">
+                <a href="#inicio" class="hover:text-amber-600 transition-colors">Inicio</a>
+                <a href="#curcu-amador" class="hover:text-amber-600 transition-colors font-semibold text-amber-800 flex items-center gap-1">
+                    <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    Curcu-Amador
+                </a>
+                <a href="#productos" class="hover:text-amber-600 transition-colors">Productos</a>
+                <a href="#beneficios" class="hover:text-amber-600 transition-colors">Beneficios</a>
+                <a href="#testimonios" class="hover:text-amber-600 transition-colors">Testimonios</a>
+                <a href="#faq" class="hover:text-amber-600 transition-colors">Preguntas</a>
+            </nav>
+
+            <!-- Actions & Cart Button -->
+            <div class="flex items-center gap-4">
+                <button id="open-cart-btn" onclick="toggleCart(true)" class="relative p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-900 transition-colors flex items-center gap-2 border border-amber-200">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-amber-700"></i>
+                    <span class="hidden sm:inline text-xs font-bold text-amber-900 pr-1">Mi Carrito</span>
+                    <span id="cart-counter" class="absolute -top-1 -right-1 w-5 h-5 bg-emerald-600 text-white text-xs font-bold rounded-full flex items-center justify-center shadow">
+                        0
+                    </span>
+                </button>
+
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-stone-700 hover:bg-stone-100">
+                    <i data-lucide="menu" id="menu-icon-open" class="w-6 h-6"></i>
+                    <i data-lucide="x" id="menu-icon-close" class="w-6 h-6 hidden"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-amber-100 px-4 pt-2 pb-6 space-y-3">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block py-2 text-stone-700 hover:text-amber-600 font-medium">Inicio</a>
+            <a href="#curcu-amador" onclick="toggleMobileMenu()" class="block py-2 text-amber-800 font-semibold bg-amber-50 rounded-lg px-3">🌟 Curcu-Amador Especial</a>
+            <a href="#productos" onclick="toggleMobileMenu()" class="block py-2 text-stone-700 hover:text-amber-600 font-medium">Todos los Productos</a>
+            <a href="#beneficios" onclick="toggleMobileMenu()" class="block py-2 text-stone-700 hover:text-amber-600 font-medium">Beneficios y Salud</a>
+            <a href="#testimonios" onclick="toggleMobileMenu()" class="block py-2 text-stone-700 hover:text-amber-600 font-medium">Testimonios</a>
+            <a href="#faq" onclick="toggleMobileMenu()" class="block py-2 text-stone-700 hover:text-amber-600 font-medium">Preguntas Frecuentes</a>
+        </div>
+    </header>
+
+    <section id="inicio" class="relative overflow-hidden bg-curcuma-gradient py-12 lg:py-20 border-b border-amber-200">
+        <!-- Background Decorative Elements -->
+        <div class="absolute -top-20 -right-20 w-96 h-96 bg-amber-300/30 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-10 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-semibold uppercase tracking-wider shadow-sm">
+                        <i data-lucide="leaf" class="w-4 h-4 text-emerald-600"></i>
+                        100% Orgánico & Cosecha Seleccionada
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-stone-900 leading-tight font-heading">
+                        Siente la fuerza natural de la Cúrcuma Pura y <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-700 to-amber-900">Curcu-Amador</span>
+                    </h1>
+
+                    <p class="text-lg text-stone-700 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Recupera tu movilidad, alivia el malestar articular y fortalece tu sistema inmune con nuestro superalimento dorado. Elaborado con máxima concentración biodisponible.
+                    </p>
+
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#curcu-amador" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold rounded-2xl shadow-lg gold-glow gold-glow-hover transition-all text-center flex items-center justify-center gap-2 text-lg">
+                            <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                            Comprar Curcu-Amador
+                        </a>
+                        <a href="#beneficios" class="w-full sm:w-auto px-7 py-4 bg-white/80 hover:bg-white text-stone-800 border border-amber-300 font-semibold rounded-2xl transition-all text-center flex items-center justify-center gap-2">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i>
+                            Ver Beneficios
+                        </a>
+                    </div>
+
+                    <!-- Trust indicators -->
+                    <div class="pt-6 border-t border-amber-200/80 grid grid-cols-3 gap-4 text-center lg:text-left">
+                        <div>
+                            <p class="text-2xl font-extrabold text-amber-900 font-heading">98.5%</p>
+                            <p class="text-xs text-stone-600 font-medium">Biodisponibilidad Alta</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-extrabold text-amber-900 font-heading">+15,000</p>
+                            <p class="text-xs text-stone-600 font-medium">Clientes Satisfechos</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-extrabold text-amber-900 font-heading">4.9/5 ⭐</p>
+                            <p class="text-xs text-stone-600 font-medium">Valoración Media</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Image Showcase -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        <!-- Decorative Frame -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-amber-400 to-amber-200 rounded-3xl transform rotate-3 scale-105 shadow-xl"></div>
+                        
+                        <!-- Main Display Card -->
+                        <div class="relative bg-white p-6 rounded-3xl shadow-2xl border border-amber-100 flex flex-col items-center">
+                            <span class="absolute top-4 right-4 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase shadow">
+                                Recomendado
+                            </span>
+                            
+                            <!-- Custom Product Mockup SVG/Illustration -->
+                            <div class="w-full h-72 bg-gradient-to-b from-amber-50 to-amber-100/50 rounded-2xl flex items-center justify-center my-2 p-4 relative overflow-hidden">
+                                <div class="text-center relative z-10">
+                                    <div class="w-36 h-48 mx-auto bg-gradient-to-b from-amber-600 to-amber-800 rounded-2xl shadow-xl flex flex-col items-center justify-between p-3 border-2 border-amber-300 text-white">
+                                        <div class="text-[10px] tracking-widest uppercase font-bold text-amber-200">Fórmula Premium</div>
+                                        <div class="my-auto text-center">
+                                            <i data-lucide="zap" class="w-8 h-8 mx-auto text-amber-300 mb-1 fill-amber-300"></i>
+                                            <div class="font-extrabold text-lg leading-tight font-heading">CURCU</div>
+                                            <div class="font-bold text-amber-300 text-sm">AMADOR</div>
+                                            <div class="text-[9px] mt-1 bg-amber-900/60 px-2 py-0.5 rounded text-amber-100">Cúrcuma + Piperina</div>
+                                        </div>
+                                        <div class="text-[9px] text-amber-200 font-mono">90 CÁPSULAS</div>
+                                    </div>
+                                </div>
+                                <!-- Plant leaf overlay -->
+                                <i data-lucide="leaf" class="absolute -bottom-6 -left-6 w-32 h-32 text-emerald-500/20 transform -rotate-45"></i>
+                                <i data-lucide="sparkles" class="absolute top-4 left-4 w-8 h-8 text-amber-400 opacity-60"></i>
+                            </div>
+
+                            <div class="w-full text-center mt-3">
+                                <h3 class="text-xl font-bold text-stone-900">Curcu-Amador Forte</h3>
+                                <p class="text-sm text-stone-500">Cúrcuma Concentrada + Pimienta Negra + Jengibre</p>
+                                <div class="mt-3 flex items-center justify-between bg-stone-50 p-3 rounded-xl border border-stone-200">
+                                    <div class="text-left">
+                                        <span class="text-xs text-stone-400 line-through font-semibold">$34.99</span>
+                                        <div class="text-xl font-extrabold text-amber-700">$24.99</div>
+                                    </div>
+                                    <button onclick="addToCart('curcu-amador-forte', 'Curcu-Amador Forte 90 Cápsulas', 24.99, 'Cápsulas de Cúrcuma + Piperina + Jengibre')" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm transition-colors shadow flex items-center gap-1.5">
+                                        <i data-lucide="plus" class="w-4 h-4"></i> Añadir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="curcu-amador" class="py-16 lg:py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-br from-amber-900 via-amber-950 to-stone-900 rounded-3xl p-8 sm:p-12 lg:p-16 text-white shadow-2xl relative overflow-hidden">
+                <!-- Background Glow -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+                    
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-semibold uppercase tracking-wider">
+                            <i data-lucide="award" class="w-4 h-4"></i>
+                            Nuestro Producto Estrella
+                        </div>
+
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-amber-50 leading-tight">
+                            Descubre la fórmula avanzada de <span class="text-amber-400">Curcu-Amador</span>
+                        </h2>
+
+                        <p class="text-stone-300 text-base sm:text-lg leading-relaxed">
+                            No toda la cúrcuma se absorbe igual. **Curcu-Amador** combina extracto estandarizado de Cúrcuma Orgánica de alta pureza con **Piperina (Pimienta Negra)**, reduciendo la inflamación hasta **20 veces más rápido** gracias a una absorción maximizada del 2000%.
+                        </p>
+
+                        <!-- Key Ingredients Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+                            <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/30 flex items-center justify-center text-amber-300 mb-3">
+                                    <i data-lucide="sun" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="font-bold text-white text-sm">Cúrcuma Orgánica</h4>
+                                <p class="text-xs text-stone-300 mt-1">Alta concentración de curcuminoides antiinflamatorios.</p>
+                            </div>
+
+                            <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/30 flex items-center justify-center text-amber-300 mb-3">
+                                    <i data-lucide="flame" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="font-bold text-white text-sm">Piperina Activa</h4>
+                                <p class="text-xs text-stone-300 mt-1">Aumenta la absorción biológica hasta un 2000%.</p>
+                            </div>
+
+                            <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/30 flex items-center justify-center text-amber-300 mb-3">
+                                    <i data-lucide="shield" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="font-bold text-white text-sm">Jengibre + Colágeno</h4>
+                                <p class="text-xs text-stone-300 mt-1">Refuerzo completo para articulaciones y cartílagos.</p>
+                            </div>
+                        </div>
+
+                        <!-- CTA Bar -->
+                        <div class="pt-4 flex flex-wrap items-center gap-6">
+                            <button onclick="addToCart('curcu-amador-forte', 'Curcu-Amador Forte 90 Cápsulas', 24.99, 'Cápsulas de Cúrcuma + Piperina + Jengibre')" class="px-8 py-4 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-2xl shadow-lg transition-all flex items-center gap-2 text-lg">
+                                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                                Probar Curcu-Amador ($24.99)
+                            </button>
+                            <div class="flex items-center gap-2 text-sm text-stone-300">
+                                <i data-lucide="truck" class="w-5 h-5 text-emerald-400"></i>
+                                Envíos rápidos y asegurados
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Interactive Dosage & Visual -->
+                    <div class="lg:col-span-5 flex flex-col items-center justify-center bg-white/5 p-6 sm:p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
+                        <div class="text-center mb-6">
+                            <span class="text-xs text-amber-300 uppercase tracking-widest font-bold">Modo de Uso Sugerido</span>
+                            <h3 class="text-2xl font-bold text-white font-heading mt-1">Sencillo e Integrable</h3>
+                        </div>
+
+                        <div class="w-full space-y-4 text-sm">
+                            <div class="flex items-center gap-4 bg-amber-900/40 p-3.5 rounded-xl border border-amber-500/20">
+                                <div class="w-8 h-8 rounded-full bg-amber-500 text-stone-900 flex items-center justify-center font-bold">1</div>
+                                <div>
+                                    <p class="font-semibold text-white">2 Cápsulas al día</p>
+                                    <p class="text-xs text-stone-300">Prefiere tomarlo junto al desayuno o almuerzo.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 bg-amber-900/40 p-3.5 rounded-xl border border-amber-500/20">
+                                <div class="w-8 h-8 rounded-full bg-amber-500 text-stone-900 flex items-center justify-center font-bold">2</div>
+                                <div>
+                                    <p class="font-semibold text-white">Acompaña con agua</p>
+                                    <p class="text-xs text-stone-300">Favorece la digestión y asimilación continua.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 bg-amber-900/40 p-3.5 rounded-xl border border-amber-500/20">
+                                <div class="w-8 h-8 rounded-full bg-amber-500 text-stone-900 flex items-center justify-center font-bold">3</div>
+                                <div>
+                                    <p class="font-semibold text-white">Consistencia diaria</p>
+                                    <p class="text-xs text-stone-300">Siente los mayores cambios a partir de los 14 días.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-6 border-t border-white/10 w-full text-center">
+                            <p class="text-xs text-amber-200/80 italic">"Sentí el alivio en mis rodillas a los pocos días de tomar Curcu-Amador."</p>
+                            <p class="text-xs text-stone-400 mt-1 font-semibold">— María V., Cliente Verificada</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficios" class="py-16 lg:py-24 bg-stone-100/70 border-y border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">
+                    Bienestar Holístico
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 font-heading mt-3">
+                    ¿Por qué incluir Cúrcuma y Curcu-Amador en tu rutina?
+                </h2>
+                <p class="text-stone-600 mt-3 text-base sm:text-lg">
+                    Respaldado por la sabiduría ancestral de la medicina ayurvédica y corroborado por estudios nutricionales modernos.
+                </p>
+            </div>
+
+            <!-- Grid of benefits -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200/80 hover:shadow-md transition-shadow group">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i data-lucide="activity" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">Potente Antiinflamatorio</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Ayuda a mitigar dolores musculares y rigidez articular de forma natural, reduciendo la necesidad de fármacos agresivos con el estómago.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200/80 hover:shadow-md transition-shadow group">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i data-lucide="heart-pulse" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">Escudo Antioxidante</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Combate los radicales libres responsables del envejecimiento celular temprano y promueve una piel más luminosa y saludable.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200/80 hover:shadow-md transition-shadow group">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i data-lucide="smile" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">Salud Digestiva e Hígado</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Estimula la producción de bilis, facilitando las digestiones pesadas y actuando como un protector hepático natural.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200/80 hover:shadow-md transition-shadow group">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i data-lucide="shield-check" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">Refuerzo Inmunológico</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Sus componentes bioactivos apoyan las defensas naturales del organismo, manteniéndote fuerte durante todo el año.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200/80 hover:shadow-md transition-shadow group">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i data-lucide="brain" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">Claridad Mental & Energía</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Fomenta la salud neuronal y la agilidad cognitiva sin producir nerviosismo ni picos de fatiga posterior.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200/80 hover:shadow-md transition-shadow group">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i data-lucide="check-circle" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">100% Sin Aditivos Nocivos</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Nuestros productos no contienen colorantes artificiales, conservantes ni conservantes químicos. Solo ingredientes puros.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="productos" class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
+                        Catálogo Completo
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 font-heading mt-3">
+                        Nuestra Selección de Cúrcuma Orgánica
+                    </h2>
+                    <p class="text-stone-600 mt-2">Encuentra la presentación ideal para tu estilo de vida.</p>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="mt-6 md:mt-0 flex flex-wrap gap-2" id="filter-buttons">
+                    <button onclick="filterProducts('todos')" class="filter-btn active px-4 py-2 rounded-xl text-sm font-semibold transition-colors bg-amber-600 text-white">
+                        Todos
+                    </button>
+                    <button onclick="filterProducts('capsulas')" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-colors bg-stone-100 text-stone-700 hover:bg-stone-200">
+                        Cápsulas
+                    </button>
+                    <button onclick="filterProducts('polvo')" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-colors bg-stone-100 text-stone-700 hover:bg-stone-200">
+                        En Polvo
+                    </button>
+                    <button onclick="filterProducts('packs')" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-colors bg-stone-100 text-stone-700 hover:bg-stone-200">
+                        Packs Ahorro
+                    </button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid">
+                
+                <!-- Product Card 1 -->
+                <div class="product-card bg-card-gradient rounded-3xl p-6 border border-amber-200/80 shadow-md hover:shadow-xl transition-all flex flex-col justify-between" data-category="capsulas">
+                    <div>
+                        <div class="relative bg-white rounded-2xl p-6 mb-4 flex items-center justify-center h-52 border border-amber-100 overflow-hidden">
+                            <span class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                                Top Ventas
+                            </span>
+                            <!-- SVG Representation -->
+                            <div class="w-28 h-36 bg-gradient-to-b from-amber-600 to-amber-800 rounded-xl shadow-lg flex flex-col items-center justify-between p-2 text-white border border-amber-300">
+                                <span class="text-[8px] tracking-widest text-amber-200 uppercase font-bold">Fórmula Estrella</span>
+                                <div class="text-center">
+                                    <p class="font-extrabold text-sm font-heading">CURCU</p>
+                                    <p class="font-bold text-amber-300 text-xs">AMADOR</p>
+                                </div>
+                                <span class="text-[8px] bg-amber-900/80 px-1.5 py-0.5 rounded text-amber-200">90 Cápsulas</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-1 text-amber-500 mb-2 text-sm">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <span class="text-xs text-stone-500 ml-1 font-semibold">(148 reseñas)</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-stone-900">Curcu-Amador Forte</h3>
+                        <p class="text-xs text-stone-500 mt-1 line-clamp-2">
+                            Fórmula potenciada con Cúrcuma Orgánica, Piperina (Pimienta Negra) y Jengibre para alivio articular.
+                        </p>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-amber-200/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-stone-400 line-through">$34.99</span>
+                            <p class="text-2xl font-extrabold text-amber-900">$24.99</p>
+                        </div>
+                        <button onclick="addToCart('curcu-amador-forte', 'Curcu-Amador Forte 90 Cápsulas', 24.99, 'Cápsulas')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm transition-colors shadow flex items-center gap-1">
+                            <i data-lucide="shopping-bag" class="w-4 h-4"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card bg-card-gradient rounded-3xl p-6 border border-amber-200/80 shadow-md hover:shadow-xl transition-all flex flex-col justify-between" data-category="polvo">
+                    <div>
+                        <div class="relative bg-white rounded-2xl p-6 mb-4 flex items-center justify-center h-52 border border-amber-100 overflow-hidden">
+                            <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                                100% Puro
+                            </span>
+                            <!-- SVG Representation -->
+                            <div class="w-28 h-36 bg-amber-500 rounded-b-3xl rounded-t-lg shadow-lg flex flex-col items-center justify-between p-3 text-amber-950 border-2 border-amber-600">
+                                <i data-lucide="leaf" class="w-5 h-5 text-emerald-800"></i>
+                                <div class="text-center">
+                                    <p class="font-black text-sm font-heading">CÚRCUMA</p>
+                                    <p class="text-[9px] font-bold uppercase tracking-wider">Pura en Polvo</p>
+                                </div>
+                                <span class="text-[9px] bg-amber-700 text-white px-2 py-0.5 rounded font-bold">250 GRAMOS</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-1 text-amber-500 mb-2 text-sm">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <span class="text-xs text-stone-500 ml-1 font-semibold">(92 reseñas)</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-stone-900">Cúrcuma Orgánica en Polvo (250g)</h3>
+                        <p class="text-xs text-stone-500 mt-1 line-clamp-2">
+                            Ideal para preparar Leche Dorada (Golden Milk), batidos, infusiones y sazonar tus platillos.
+                        </p>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-amber-200/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-stone-400 line-through">$18.00</span>
+                            <p class="text-2xl font-extrabold text-amber-900">$12.99</p>
+                        </div>
+                        <button onclick="addToCart('curcuma-polvo-250', 'Cúrcuma Orgánica Polvo 250g', 12.99, 'Polvo')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm transition-colors shadow flex items-center gap-1">
+                            <i data-lucide="shopping-bag" class="w-4 h-4"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card bg-card-gradient rounded-3xl p-6 border border-amber-200/80 shadow-md hover:shadow-xl transition-all flex flex-col justify-between" data-category="polvo">
+                    <div>
+                        <div class="relative bg-white rounded-2xl p-6 mb-4 flex items-center justify-center h-52 border border-amber-100 overflow-hidden">
+                            <span class="absolute top-3 left-3 bg-amber-800 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                                Formato Familiar
+                            </span>
+                            <!-- SVG Representation -->
+                            <div class="w-32 h-36 bg-amber-600 rounded-b-3xl rounded-t-lg shadow-lg flex flex-col items-center justify-between p-3 text-amber-950 border-2 border-amber-400">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-amber-200"></i>
+                                <div class="text-center text-white">
+                                    <p class="font-black text-base font-heading">CÚRCUMA</p>
+                                    <p class="text-[9px] font-bold uppercase tracking-wider text-amber-200">Pura en Polvo</p>
+                                </div>
+                                <span class="text-[9px] bg-amber-900 text-amber-100 px-2 py-0.5 rounded font-bold">500 GRAMOS</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-1 text-amber-500 mb-2 text-sm">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <span class="text-xs text-stone-500 ml-1 font-semibold">(67 reseñas)</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-stone-900">Cúrcuma Orgánica en Polvo (500g)</h3>
+                        <p class="text-xs text-stone-500 mt-1 line-clamp-2">
+                            Ahorra más con la presentación gigante de medio kilo de cúrcuma seleccionada de alta pureza.
+                        </p>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-amber-200/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-stone-400 line-through">$28.00</span>
+                            <p class="text-2xl font-extrabold text-amber-900">$21.99</p>
+                        </div>
+                        <button onclick="addToCart('curcuma-polvo-500', 'Cúrcuma Orgánica Polvo 500g', 21.99, 'Polvo')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm transition-colors shadow flex items-center gap-1">
+                            <i data-lucide="shopping-bag" class="w-4 h-4"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="product-card bg-card-gradient rounded-3xl p-6 border border-amber-200/80 shadow-md hover:shadow-xl transition-all flex flex-col justify-between" data-category="packs">
+                    <div>
+                        <div class="relative bg-white rounded-2xl p-6 mb-4 flex items-center justify-center h-52 border border-amber-100 overflow-hidden">
+                            <span class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                                Super Oferta -20%
+                            </span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-20 h-28 bg-amber-800 rounded-lg p-2 text-white flex flex-col justify-between text-center">
+                                    <span class="text-[8px] font-bold">CURCU</span>
+                                    <span class="text-[9px] font-extrabold text-amber-300">AMADOR</span>
+                                    <span class="text-[7px]">CÁPSULAS</span>
+                                </div>
+                                <span class="text-xl font-black text-amber-600">+</span>
+                                <div class="w-20 h-28 bg-amber-500 rounded-lg p-2 text-stone-900 flex flex-col justify-between text-center">
+                                    <span class="text-[8px] font-bold">CÚRCUMA</span>
+                                    <span class="text-[9px] font-extrabold text-amber-950">POLVO</span>
+                                    <span class="text-[7px]">250G</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-1 text-amber-500 mb-2 text-sm">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <span class="text-xs text-stone-500 ml-1 font-semibold">(210 reseñas)</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-stone-900">Pack Dúo Salud Articular</h3>
+                        <p class="text-xs text-stone-500 mt-1 line-clamp-2">
+                            Incluye 1 Frasco de Curcu-Amador Forte (90 cápsulas) + 1 Bolsa de Cúrcuma en Polvo (250g).
+                        </p>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-amber-200/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-stone-400 line-through">$42.99</span>
+                            <p class="text-2xl font-extrabold text-amber-900">$32.99</p>
+                        </div>
+                        <button onclick="addToCart('pack-duo-salud', 'Pack Dúo Curcu-Amador + Polvo 250g', 32.99, 'Pack Combo')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm transition-colors shadow flex items-center gap-1">
+                            <i data-lucide="shopping-bag" class="w-4 h-4"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 5 -->
+                <div class="product-card bg-card-gradient rounded-3xl p-6 border border-amber-200/80 shadow-md hover:shadow-xl transition-all flex flex-col justify-between" data-category="packs">
+                    <div>
+                        <div class="relative bg-white rounded-2xl p-6 mb-4 flex items-center justify-center h-52 border border-amber-100 overflow-hidden">
+                            <span class="absolute top-3 left-3 bg-emerald-700 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                                Tratamiento 3 Meses
+                            </span>
+                            <div class="flex items-center -space-x-4">
+                                <div class="w-16 h-24 bg-amber-800 rounded-lg p-1.5 text-white flex flex-col justify-between text-center border border-amber-400">
+                                    <span class="text-[7px]">1</span>
+                                    <span class="text-[8px] font-extrabold text-amber-300">AMADOR</span>
+                                </div>
+                                <div class="w-16 h-24 bg-amber-900 rounded-lg p-1.5 text-white flex flex-col justify-between text-center border border-amber-400 shadow-lg z-10 scale-105">
+                                    <span class="text-[7px]">2</span>
+                                    <span class="text-[8px] font-extrabold text-amber-300">AMADOR</span>
+                                </div>
+                                <div class="w-16 h-24 bg-amber-800 rounded-lg p-1.5 text-white flex flex-col justify-between text-center border border-amber-400">
+                                    <span class="text-[7px]">3</span>
+                                    <span class="text-[8px] font-extrabold text-amber-300">AMADOR</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-1 text-amber-500 mb-2 text-sm">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <span class="text-xs text-stone-500 ml-1 font-semibold">(85 reseñas)</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-stone-900">Pack Trimestral Curcu-Amador (x3)</h3>
+                        <p class="text-xs text-stone-500 mt-1 line-clamp-2">
+                            3 Frascos de Curcu-Amador Forte para 90 días seguidos de tratamiento. Envío gratis incluido.
+                        </p>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-amber-200/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-stone-400 line-through">$74.97</span>
+                            <p class="text-2xl font-extrabold text-amber-900">$59.99</p>
+                        </div>
+                        <button onclick="addToCart('pack-trimestral-amador', 'Pack 3 Frascos Curcu-Amador', 59.99, 'Pack Ahorro')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm transition-colors shadow flex items-center gap-1">
+                            <i data-lucide="shopping-bag" class="w-4 h-4"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 6 -->
+                <div class="product-card bg-card-gradient rounded-3xl p-6 border border-amber-200/80 shadow-md hover:shadow-xl transition-all flex flex-col justify-between" data-category="polvo">
+                    <div>
+                        <div class="relative bg-white rounded-2xl p-6 mb-4 flex items-center justify-center h-52 border border-amber-100 overflow-hidden">
+                            <span class="absolute top-3 left-3 bg-amber-700 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                                Infusión Té Herbal
+                            </span>
+                            <div class="w-28 h-32 bg-amber-100 rounded-2xl border-2 border-amber-400 flex flex-col items-center justify-center p-3 text-center">
+                                <i data-lucide="coffee" class="w-8 h-8 text-amber-700 mb-1"></i>
+                                <span class="font-bold text-xs text-amber-900">Infusión Cúrcuma & Jengibre</span>
+                                <span class="text-[9px] text-stone-500 mt-1">20 Saquitos Filtrantes</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-1 text-amber-500 mb-2 text-sm">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <span class="text-xs text-stone-500 ml-1 font-semibold">(53 reseñas)</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-stone-900">Infusión Digestiva Cúrcuma & Jengibre</h3>
+                        <p class="text-xs text-stone-500 mt-1 line-clamp-2">
+                            Mezcla herbal reconfortante para tomar caliente o helada. Perfecta para tomar después de las comidas.
+                        </p>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-amber-200/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-stone-400 line-through">$12.00</span>
+                            <p class="text-2xl font-extrabold text-amber-900">$8.99</p>
+                        </div>
+                        <button onclick="addToCart('infusion-curcuma', 'Infusión Cúrcuma & Jengibre (20 Bolsitas)', 8.99, 'Té / Infusión')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-sm transition-colors shadow flex items-center gap-1">
+                            <i data-lucide="shopping-bag" class="w-4 h-4"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonios" class="py-16 lg:py-24 bg-stone-900 text-white relative overflow-hidden">
+        <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-400 bg-amber-950/80 px-3 py-1 rounded-full border border-amber-500/30">
+                    Comunidad Satisfecha
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-heading mt-3 text-white">
+                    Lo que dicen nuestros clientes de Curcu-Amador
+                </h2>
+                <p class="text-stone-400 mt-2">Historias reales de personas que transformaron sus mañanas.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="bg-stone-800/80 border border-stone-700/60 p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-amber-400 mb-4">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                        </div>
+                        <p class="text-stone-300 text-sm leading-relaxed italic mb-6">
+                            "Sufro de molestias en las articulaciones por la edad y el frío. Empecé con Curcu-Amador hace 3 semanas y la diferencia es enorme. Puedo salir a caminar sin ese dolor persistente."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-stone-700/50">
+                        <div class="w-10 h-10 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center text-sm">
+                            RL
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-white">Ricardo López</h4>
+                            <p class="text-xs text-stone-400">Cliente Verificado — Madrid</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-stone-800/80 border border-stone-700/60 p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-amber-400 mb-4">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                        </div>
+                        <p class="text-stone-300 text-sm leading-relaxed italic mb-6">
+                            "Me encanta la cúrcuma en polvo para mi Golden Milk de las noches, y tomo las cápsulas Curcu-Amador por las mañanas. Mi digestión mejoró muchísimo y me siento con más energía."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-stone-700/50">
+                        <div class="w-10 h-10 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-sm">
+                            CS
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-white">Carmen Silva</h4>
+                            <p class="text-xs text-stone-400">Cliente Verificado — Valencia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-stone-800/80 border border-stone-700/60 p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-amber-400 mb-4">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                        </div>
+                        <p class="text-stone-300 text-sm leading-relaxed italic mb-6">
+                            "Atención de diez. Hice el pedido por WhatsApp y me llegó a casa en 24 horas. El pack trimestral vale muchísimo la pena por el descuento."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-stone-700/50">
+                        <div class="w-10 h-10 rounded-full bg-amber-700 text-white font-bold flex items-center justify-center text-sm">
+                            MA
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-white">Miguel Ángel G.</h4>
+                            <p class="text-xs text-stone-400">Cliente Verificado — Sevilla</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-16 lg:py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
+                    Resolvemos tus dudas
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 font-heading mt-3">
+                    Preguntas Frecuentes
+                </h2>
+                <p class="text-stone-600 mt-2">Todo lo que necesitas saber antes de realizar tu pedido.</p>
+            </div>
+
+            <!-- FAQ Accordion items -->
+            <div class="space-y-4" id="faq-accordion">
+                
+                <div class="border border-stone-200 rounded-2xl overflow-hidden transition-colors">
+                    <button onclick="toggleFaq(this)" class="w-full text-left px-6 py-5 bg-stone-50 hover:bg-amber-50/50 font-bold text-stone-900 flex justify-between items-center transition-colors">
+                        <span>¿Cuál es la diferencia entre la cúrcuma normal y Curcu-Amador?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-amber-600 transform transition-transform duration-200"></i>
+                    </button>
+                    <div class="px-6 py-0 max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-stone-600 text-sm leading-relaxed bg-white">
+                        <p class="py-4">
+                            La cúrcuma en estado puro es maravillosa pero el cuerpo metaboliza la curcumina muy rápido. **Curcu-Amador** contiene piperina de pimienta negra y jengibre, lo que multiplica su nivel de absorción hasta en un 2000%, permitiendo que disfrutes de los beneficios antiinflamatorios de forma rápida y efectiva.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border border-stone-200 rounded-2xl overflow-hidden transition-colors">
+                    <button onclick="toggleFaq(this)" class="w-full text-left px-6 py-5 bg-stone-50 hover:bg-amber-50/50 font-bold text-stone-900 flex justify-between items-center transition-colors">
+                        <span>¿Cómo debo tomar Curcu-Amador Forte?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-amber-600 transform transition-transform duration-200"></i>
+                    </button>
+                    <div class="px-6 py-0 max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-stone-600 text-sm leading-relaxed bg-white">
+                        <p class="py-4">
+                            Se recomienda tomar 2 cápsulas al día con un vaso de agua, preferentemente acompañadas con alguna de tus comidas principales (desayuno o almuerzo) para facilitar la absorción de sus nutrientes solubles.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border border-stone-200 rounded-2xl overflow-hidden transition-colors">
+                    <button onclick="toggleFaq(this)" class="w-full text-left px-6 py-5 bg-stone-50 hover:bg-amber-50/50 font-bold text-stone-900 flex justify-between items-center transition-colors">
+                        <span>¿Cuánto tiempo tardan los envíos?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-amber-600 transform transition-transform duration-200"></i>
+                    </button>
+                    <div class="px-6 py-0 max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-stone-600 text-sm leading-relaxed bg-white">
+                        <p class="py-4">
+                            Procesamos los pedidos el mismo día. Los envíos urbanos tardan entre 24 a 48 horas hábiles. Recibirás un mensaje de confirmación por WhatsApp con tu número de guía de rastreo.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border border-stone-200 rounded-2xl overflow-hidden transition-colors">
+                    <button onclick="toggleFaq(this)" class="w-full text-left px-6 py-5 bg-stone-50 hover:bg-amber-50/50 font-bold text-stone-900 flex justify-between items-center transition-colors">
+                        <span>¿Existen contraindicaciones?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-amber-600 transform transition-transform duration-200"></i>
+                    </button>
+                    <div class="px-6 py-0 max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-stone-600 text-sm leading-relaxed bg-white">
+                        <p class="py-4">
+                            Nuestros productos son 100% naturales. Sin embargo, si estás embarazada, en periodo de lactancia, tomas anticoagulantes o sufres de cálculos vesiculares graves, te recomendamos consultar previamente con tu médico tratante.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide-over Cart Backdrop -->
+    <div id="cart-backdrop" onclick="toggleCart(false)" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+    <!-- Slide-over Cart Drawer -->
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        
+        <!-- Cart Header -->
+        <div class="p-5 border-b border-stone-200 flex items-center justify-between bg-amber-50/60">
+            <div class="flex items-center gap-2">
+                <i data-lucide="shopping-bag" class="w-6 h-6 text-amber-700"></i>
+                <h3 class="text-xl font-bold text-stone-900 font-heading">Tu Carrito de Compra</h3>
+            </div>
+            <button onclick="toggleCart(false)" class="p-2 rounded-lg text-stone-500 hover:bg-stone-200 transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items Container -->
+        <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4">
+            <!-- Items rendered dynamically via JS -->
+        </div>
+
+        <!-- Cart Footer / Checkout Form -->
+        <div class="p-5 border-t border-stone-200 bg-stone-50 space-y-4">
+            
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between text-stone-600">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal" class="font-semibold">$0.00</span>
+                </div>
+                <div class="flex justify-between text-stone-600">
+                    <span>Envío Estimado:</span>
+                    <span class="text-emerald-700 font-bold">GRATIS</span>
+                </div>
+                <div class="flex justify-between text-stone-900 text-lg font-bold pt-2 border-t border-stone-200">
+                    <span>Total:</span>
+                    <span id="cart-total" class="text-amber-800">$0.00</span>
+                </div>
+            </div>
+
+            <!-- Customer Info Form for WhatsApp -->
+            <form id="checkout-form" onsubmit="sendWhatsAppOrder(event)" class="space-y-3 pt-2">
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 mb-1">Tu Nombre Completo *</label>
+                    <input type="text" id="cust-name" required placeholder="Ej. Ana García" class="w-full px-3 py-2 text-sm rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 mb-1">Dirección de Entrega y Ciudad *</label>
+                    <input type="text" id="cust-address" required placeholder="Ej. Av. Principal 123, Madrid" class="w-full px-3 py-2 text-sm rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+
+                <button type="submit" id="btn-whatsapp" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-base">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    Pedir por WhatsApp Ahora
+                </button>
+            </form>
+            <p class="text-[11px] text-center text-stone-500">
+                🔒 Paga al recibir o coordinar directamente por WhatsApp.
+            </p>
+        </div>
+    </div>
+
+    <footer class="bg-stone-950 text-stone-400 py-12 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white font-bold">
+                            <i data-lucide="sparkles" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-lg font-bold text-white font-heading">Curcu-Amador</span>
+                    </div>
+                    <p class="text-xs text-stone-400 leading-relaxed">
+                        Comprometidos con llevar la pureza de la mejor Cúrcuma Orgánica e ingredientes naturales a tu mesa.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Navegación</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#inicio" class="hover:text-amber-400 transition-colors">Inicio</a></li>
+                        <li><a href="#curcu-amador" class="hover:text-amber-400 transition-colors">Curcu-Amador Forte</a></li>
+                        <li><a href="#productos" class="hover:text-amber-400 transition-colors">Productos</a></li>
+                        <li><a href="#beneficios" class="hover:text-amber-400 transition-colors">Beneficios</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Garantía</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Calidad 100% Certificada</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Devolución garantizada</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Envíos nacionales seguros</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Atención al Cliente</h4>
+                    <p class="text-xs text-stone-400 mb-2">¿Tienes preguntas antes de comprar?</p>
+                    <a href="https://wa.me/34600000000?text=Hola,%20quisiera%20mas%20informacion%20sobre%20Curcu-Amador" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/80 px-3 py-2 rounded-xl hover:bg-emerald-900 transition-colors">
+                        <i data-lucide="message-square" class="w-4 h-4"></i> Asesoría WhatsApp
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-stone-800 text-center text-xs text-stone-500 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p>&copy; 2026 Curcu-Amador. Todos los derechos reservados.</p>
+                <p class="text-[11px]">Los suplementos alimenticios no deben utilizarse como sustitutos de una dieta variada y equilibrada.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Store State
+        let cart = [];
+
+        // Initialize icons on load
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            updateCartUI();
+        });
+
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-icon-open');
+            const closeIcon = document.getElementById('menu-icon-close');
+            
+            menu.classList.toggle('hidden');
+            openIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        }
+
+        // Filter Products in Catalog
+        function filterProducts(category) {
+            const cards = document.querySelectorAll('.product-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-amber-600', 'text-white', 'active');
+                btn.classList.add('bg-stone-100', 'text-stone-700');
+            });
+
+            event.target.classList.remove('bg-stone-100', 'text-stone-700');
+            event.target.classList.add('bg-amber-600', 'text-white', 'active');
+
+            cards.forEach(card => {
+                if (category === 'todos' || card.dataset.category === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Toggle FAQ Accordions
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+            // Close all items
+            document.querySelectorAll('#faq-accordion > div').forEach(item => {
+                const c = item.querySelector('div');
+                const i = item.querySelector('i');
+                if (c) c.style.maxHeight = '0px';
+                if (i) i.style.transform = 'rotate(0deg)';
+            });
+
+            // Open clicked item if closed
+            if (!isOpen) {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Cart Drawer Control
+        function toggleCart(open) {
+            const drawer = document.getElementById('cart-drawer');
+            const backdrop = document.getElementById('cart-backdrop');
+
+            if (open) {
+                backdrop.classList.remove('opacity-0', 'pointer-events-none');
+                drawer.classList.remove('translate-x-full');
+            } else {
+                backdrop.classList.add('opacity-0', 'pointer-events-none');
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        // Add Product to Cart
+        function addToCart(id, title, price, details) {
+            const existingIndex = cart.findIndex(item => item.id === id);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({
+                    id: id,
+                    title: title,
+                    price: price,
+                    details: details,
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            showToast(`¡Añadido: ${title}!`);
+            toggleCart(true);
+        }
+
+        // Modify Quantity
+        function updateQuantity(id, change) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+
+            item.quantity += change;
+
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== id);
+            }
+
+            updateCartUI();
+        }
+
+        // Remove Item
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+        }
+
+        // Update Cart Drawer DOM & Totals
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartCounter = document.getElementById('cart-counter');
+            const cartSubtotal = document.getElementById('cart-subtotal');
+            const cartTotal = document.getElementById('cart-total');
+
+            // Total count calculation
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCounter.textContent = totalCount;
+
+            // Total price calculation
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartSubtotal.textContent = `$${totalAmount.toFixed(2)}`;
+            cartTotal.textContent = `$${totalAmount.toFixed(2)}`;
+
+            // Render Cart List
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="text-center py-12 text-stone-400">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto mb-3 opacity-40"></i>
+                        <p class="font-bold text-stone-600">Tu carrito está vacío</p>
+                        <p class="text-xs mt-1">¡Añade Curcu-Amador o cúrcuma en polvo para comenzar!</p>
+                    </div>
+                `;
+            } else {
+                cartItemsContainer.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between bg-stone-50 p-3.5 rounded-2xl border border-stone-200">
+                        <div class="flex-1 pr-3">
+                            <h4 class="font-bold text-sm text-stone-900">${item.title}</h4>
+                            <p class="text-xs text-stone-500">$${item.price.toFixed(2)} c/u</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex items-center bg-white rounded-xl border border-stone-300">
+                                <button onclick="updateQuantity('${item.id}', -1)" class="px-2 py-1 text-stone-600 hover:text-amber-700 font-bold text-sm">-</button>
+                                <span class="px-2 font-bold text-xs text-stone-800">${item.quantity}</span>
+                                <button onclick="updateQuantity('${item.id}', 1)" class="px-2 py-1 text-stone-600 hover:text-amber-700 font-bold text-sm">+</button>
+                            </div>
+                            <button onclick="removeFromCart('${item.id}')" class="text-stone-400 hover:text-red-500 p-1">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            lucide.createIcons();
+        }
+
+        // Toast Notification Function
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast-animate bg-stone-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-amber-500/40 text-sm font-semibold pointer-events-auto';
+            toast.innerHTML = `
+                <i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Send WhatsApp Order
+        function sendWhatsAppOrder(e) {
+            e.preventDefault();
+
+            if (cart.length === 0) {
+                showToast("⚠️ Agrega al menos un producto al carrito");
+                return;
+            }
+
+            const name = document.getElementById('cust-name').value;
+            const address = document.getElementById('cust-address').value;
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+
+            let orderText = `*NUEVO PEDIDO DE CÚRCUMA / CURCU-AMADOR*%0A%0A`;
+            orderText += `*Cliente:* ${encodeURIComponent(name)}%0A`;
+            orderText += `*Dirección:* ${encodeURIComponent(address)}%0A%0A`;
+            orderText += `*Detalle de Pedido:*%0A`;
+
+            cart.forEach(item => {
+                orderText += `- ${item.quantity}x ${encodeURIComponent(item.title)} ($${(item.price * item.quantity).toFixed(2)})%0A`;
+            });
+
+            orderText += `%0A*TOTAL:* $${total}%0A`;
+            orderText += `*Envío:* GRATIS%0A%0A`;
+            orderText += `Por favor confirmen mi pedido para la entrega.`;
+
+            // WhatsApp link (Replace with actual business phone number)
+            const whatsappNumber = "34600000000"; 
+            window.open(`https://wa.me/${whatsappNumber}?text=${orderText}`, '_blank');
+        }
+    </script>
+</body>
+</html>
